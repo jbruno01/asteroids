@@ -1,7 +1,8 @@
+(function () {
+  if (typeof Asteroids === "undefined") {
+    window.Asteroids = {};
+  }
 
-var Asteroids = {
-  Util: {}
-};
 var util = Asteroids.Util
 
 util.inherits = function(ChildClass, ParentClass) {
@@ -19,4 +20,4 @@ util.randomVec = function(length) {
 };
 
 
-module.exports = Asteroids;
+})();

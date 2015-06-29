@@ -1,7 +1,9 @@
-var Asteroids = require('util');
-var MovingObject = require('movingObject');
+(function () {
+  if (typeof Asteroids === "undefined") {
+    window.Asteroids = {};
+  }
 
-function Asteroid(obj) {
+Asteroids.Asteroid = function(obj) {
   var COLOR = "#ccc";
   var RADIUS = 50;
   MovingObject.call(this, {
@@ -13,3 +15,5 @@ function Asteroid(obj) {
 };
 
 Asteroids.Util.inherits(Asteroid, MovingObject);
+
+})();
