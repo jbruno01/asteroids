@@ -103,7 +103,7 @@ Game.prototype.allObjects = function() {
 Game.prototype.maxSpeed = function(speedX, speedY) {
   var speedLimit = 15;
   if ((speedLimit * speedLimit) < ((speedX * speedX) + (speedY * speedY))) {
-    return this.maxSpeed(speedX * .7, speedY * .7);
+    return this.maxSpeed(speedX * 0.9, speedY * 0.9);
   };
   return [speedX, speedY];
 };

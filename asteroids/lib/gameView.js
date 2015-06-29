@@ -15,10 +15,11 @@
 
   GameView.prototype.bindKeyHandlers = function() {
     var gameview = this;
-    key('up', function() { gameview.game.ship.power([0, -10]) });
-    key('left', function() { gameview.game.ship.power([-10, 0]) });
-    key('right', function() { gameview.game.ship.power([10, 0]) });
-    key('down', function() { gameview.game.ship.power([0, 10]) });
+    var thrust = 5;
+    key('up', function() { gameview.game.ship.power([0, thrust * -1]) });
+    key('left', function() { gameview.game.ship.power([-1 * thrust, 0]) });
+    key('right', function() { gameview.game.ship.power([thrust, 0]) });
+    key('down', function() { gameview.game.ship.power([0, thrust]) });
     key('space', function() { gameview.game.ship.fireBullet() });
   };
 
