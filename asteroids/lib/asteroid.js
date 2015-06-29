@@ -5,12 +5,13 @@
 
 Asteroids.Asteroid = function(obj) {
   var COLOR = "#ccc";
-  var RADIUS = 50;
+  var RADIUS = 20;
   Asteroids.MovingObject.call(this, {
+    game: obj.game,
     color: COLOR,
     radius: RADIUS,
     pos: obj.pos,
-    vel: Asteroids.Util.randomVec(10)
+    vel: Asteroids.Util.randomVec(2)
   });
 };
 

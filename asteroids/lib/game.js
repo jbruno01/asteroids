@@ -3,40 +3,95 @@
     window.Asteroids = {};
   }
 
-Asteroids.Game = function() {
+var Game = Asteroids.Game = function() {
   this.DIM_X = 800;
   this.DIM_Y = 800;
-  this.NUM_ASTEROIDS = 25;
+  this.NUM_ASTEROIDS = 5;
   this.addAsteroids();
 };
 
-Asteroids.Game.prototype.addAsteroids = function() {
+Game.prototype.addAsteroids = function() {
   this.asteroids = [];
   for (var i = 0; i < this.NUM_ASTEROIDS; i++ ){
-    this.asteroids.push(new Asteroids.Asteroid({pos: this.randomPosition()}));
+    this.asteroids.push(new Asteroids.Asteroid({
+      pos: this.randomPosition(),
+      game: this
+    }));
   };
 };
 
-Asteroids.Game.prototype.randomPosition = function() {
+Game.prototype.randomPosition = function() {
   return [(Math.random() * this.DIM_X), (Math.random() * this.DIM_Y)];
 };
 
-Asteroids.Game.prototype.draw = function(ctx) {
+Game.prototype.draw = function(ctx) {
   ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
   this.asteroids.forEach(function(asteroid) {
     asteroid.draw(ctx);
   });
 };
 
-Asteroids.Game.prototype.moveObjects = function(){
+Game.prototype.moveObjects = function(){
   this.asteroids.forEach(function(asteroid) {
     asteroid.move();
   });
 };
 
-Asteroids.Game.prototype.render = function(ctx){
-  this.moveObjects();
+Game.prototype.render = function(ctx){
+  this.step();
   this.draw(ctx);
 };
+
+Game.prototype.wrap = function(pos) {
+  var wrapX = pos[0];
+  var wrapY = pos[1];
+  if(wrapX > 800){
+    wrapX -= 800;
+  };
+  if(wrapX < 0) {
+    wrapX += 800;
+  };
+  if(wrapY > 800){
+    wrapY -= 800;
+  };
+  if(wrapY < 0){
+    wrapY += 800;
+  };
+  return [wrapX, wrapY]
+};
+
+Game.prototype.checkCollisions = function() {
+  var asteroids = this.asteroids;
+  var toBeRemoved = []
+  for (var i = 0; i < asteroids.length - 1; i++ ){
+    for (var j = i + 1; j < asteroids.length; j++) {
+      if (asteroids[i].isCollidedWith(asteroids[j])) {
+        toBeRemoved.push(i);
+        toBeRemoved.push(j);
+      };
+    };
+  };
+  this.remove(toBeRemoved)
+};
+
+Game.prototype.step = function () {
+  this.moveObjects();
+  this.checkCollisions();
+};
+
+Game.prototype.remove = function(removeArray) {
+  var game = this;
+  removeArray.forEach(function(index){
+    game.asteroids[index] = null;
+  })
+  var newAsteroids = [];
+  game.asteroids.forEach(function(asteroid){
+    if (asteroid !== null) {
+      newAsteroids.push(asteroid);
+    };
+  });
+  game.asteroids = newAsteroids;
+};
+
 
 })();
