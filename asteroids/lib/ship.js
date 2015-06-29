@@ -23,4 +23,24 @@ Ship.prototype.relocate = function () {
   this.pos = this.game.randomPosition();
 };
 
+Ship.prototype.power = function(impulse) {
+  var newVel = this.game.maxSpeed(
+    (this.vel[0] + impulse[0]),
+    (this.vel[1] + impulse[1])
+  );
+  this.vel[0] = newVel[0];
+  this.vel[1] = newVel[1];
+};
+
+Ship.prototype.fireBullet = function () {
+  this.game.bullets.push(new Asteroids.Bullet({
+    pos: this.pos,
+    vel: [(this.vel[0] * 2), (this.vel[1] * 2)],
+    game: this.game
+  }));
+  if(this.game.bullets.length > 6){
+    this.game.bullets.shift();
+  };
+};
+
 })();

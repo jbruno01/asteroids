@@ -7,12 +7,20 @@
       html, body, canvas {
         padding: 0px;
         margin: 0px;
+        background: black;
       }
+      canvas {
+        background: white;
+        width: 800px;
+        /*height: 800px;*/
+        margin: auto;
+      }
+
     </style>
   </head>
 
   <body>
-    <canvas id="game-canvas" width=800 height=800></canvas>
+    <canvas id="game-canvas"></canvas>
 
     <script src="lib/movingObject.js"></script>
     <script src="lib/game.js"></script>
@@ -21,12 +29,13 @@
     <script src="lib/ship.js"></script>
     <script src="lib/asteroid.js"></script>
     <script src="lib/bullet.js"></script>
+    <script src="lib/keymaster.js"></script>
     <script>
       var canvasEl = document.getElementsByTagName("canvas")[0];
       canvasEl.height = window.innerHeight;
       canvasEl.width = window.innerWidth;
       var ctx = canvasEl.getContext("2d");
-      new Asteroids.GameView(ctx).start();
+      new Asteroids.GameView(ctx, canvasEl).start();
     </script>
   </body>
 </html>

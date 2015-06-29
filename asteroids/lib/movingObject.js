@@ -1,7 +1,7 @@
 (function () {
   if (typeof Asteroids === "undefined") {
     window.Asteroids = {};
-  }
+  };
 
 var MovingObject = Asteroids.MovingObject = function (obj) {
   this.pos = obj.pos;
