@@ -6,7 +6,7 @@
 Asteroids.Asteroid = function(obj) {
   var COLOR = "#ccc";
   var RADIUS = 50;
-  MovingObject.call(this, {
+  Asteroids.MovingObject.call(this, {
     color: COLOR,
     radius: RADIUS,
     pos: obj.pos,
@@ -14,6 +14,6 @@ Asteroids.Asteroid = function(obj) {
   });
 };
 
-Asteroids.Util.inherits(Asteroid, MovingObject);
+Asteroids.Util.inherits(Asteroids.Asteroid, Asteroids.MovingObject);
 
 })();
