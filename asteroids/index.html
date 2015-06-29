@@ -12,18 +12,28 @@
   </head>
 
   <body>
-    <!-- <canvas></canvas>
+    <canvas></canvas>
 
-    <script src="lib/circle.js"></script>
+    <script src="lib/movingObject.js"></script>
     <script src="lib/game.js"></script>
     <script>
       var canvasEl = document.getElementsByTagName("canvas")[0];
       canvasEl.height = window.innerHeight;
       canvasEl.width = window.innerWidth;
-      new Circles.Game(
-        canvasEl.width,
-        canvasEl.height
-      ).start(canvasEl);
-    </script> -->
+      var ctx = canvasEl.getContext("2d");
+      ctx.fillStyle = "#ccc";
+      ctx.beginPath();
+
+      ctx.arc(
+        100,
+        100,
+        50,
+        0,
+        2*Math.PI,
+        false
+      );
+
+      ctx.fill();
+    </script>
   </body>
 </html>
