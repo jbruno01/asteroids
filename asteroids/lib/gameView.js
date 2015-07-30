@@ -15,7 +15,7 @@
 
   GameView.prototype.bindKeyHandlers = function() {
     var gameview = this;
-    var thrust = 5;
+    var thrust = 2;
     key('up', function() { gameview.game.ship.power([0, thrust * -1]) });
     key('left', function() { gameview.game.ship.power([-1 * thrust, 0]) });
     key('right', function() { gameview.game.ship.power([thrust, 0]) });

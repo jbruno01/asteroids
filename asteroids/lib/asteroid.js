@@ -4,7 +4,7 @@
   }
 
 Asteroids.Asteroid = function(obj) {
-  var COLOR = "#ccc";
+  var COLOR = "green";
   var RADIUS = 50;
   Asteroids.MovingObject.call(this, {
     game: obj.game,

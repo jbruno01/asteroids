@@ -29,11 +29,23 @@ MovingObject.prototype.draw = function (ctx) {
 
 };
 
+MovingObject.prototype.isWrappable = true
+
+// MovingObject.prototype.move = function () {
+//   var newX = this.pos[0] + this.vel[0];
+//   var newY = this.pos[1] + this.vel[1];
+//
+//   this.pos = this.game.wrap([newX, newY]);
+// }
+
 MovingObject.prototype.move = function () {
   var newX = this.pos[0] + this.vel[0];
   var newY = this.pos[1] + this.vel[1];
-
-  this.pos = this.game.wrap([newX, newY]);
+  if(this.game.isOutOfBounds(this.pos) && this.isWrappable === false) {
+    this.game.remove(this);
+  } else {
+    this.pos = this.game.wrap([newX, newY]);
+  }
 }
 
 MovingObject.prototype.isCollidedWith = function(otherObject){

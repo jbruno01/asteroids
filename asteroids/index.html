@@ -3,33 +3,23 @@
   <head>
     <title>Asteroids</title>
 
-    <style>
-      html, body, canvas {
-        padding: 0px;
-        margin: 0px;
-        background: black;
-      }
-      canvas {
-        background: white;
-        width: 800px;
-        /*height: 800px;*/
-        margin: auto;
-      }
-
-    </style>
-  </head>
-
-  <body>
-    <canvas id="game-canvas"></canvas>
-
     <script src="lib/movingObject.js"></script>
     <script src="lib/game.js"></script>
     <script src="lib/gameView.js"></script>
     <script src="lib/util.js"></script>
     <script src="lib/ship.js"></script>
     <script src="lib/asteroid.js"></script>
+    <script src="lib/star.js"></script>
     <script src="lib/bullet.js"></script>
     <script src="lib/keymaster.js"></script>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
+  </head>
+
+  <body>
+    <canvas id="game-canvas"></canvas>
+
     <script>
       var canvasEl = document.getElementsByTagName("canvas")[0];
       canvasEl.height = window.innerHeight;

@@ -7,7 +7,9 @@ var Game = Asteroids.Game = function(canvasEl) {
   this.DIM_X = canvasEl.width;
   this.DIM_Y = canvasEl.height;
   this.NUM_ASTEROIDS = 8;
+  this.NUM_EACH_STARS = 10;
   this.addAsteroids();
+  this.addStars();
   this.ship = new Asteroids.Ship({game: this});
   this.bullets = [];
 };
@@ -16,6 +18,24 @@ Game.prototype.addAsteroids = function() {
   this.asteroids = [];
   for (var i = 0; i < this.NUM_ASTEROIDS; i++ ){
     this.asteroids.push(new Asteroids.Asteroid({
+      pos: this.randomPosition(),
+      game: this
+    }));
+  };
+};
+
+Game.prototype.addStars = function() {
+  this.stars = [];
+  for (var i = 0; i < this.NUM_EACH_STARS; i++ ){
+    this.stars.push(new Asteroids.LittleStar({
+      pos: this.randomPosition(),
+      game: this
+    }));
+    this.stars.push(new Asteroids.MediumStar({
+      pos: this.randomPosition(),
+      game: this
+    }));
+    this.stars.push(new Asteroids.BigStar({
       pos: this.randomPosition(),
       game: this
     }));
@@ -96,17 +116,26 @@ Game.prototype.remove = function(removeArray) {
   });
 };
 
+Game.prototype.isOutOfBounds = function(pos) {
+  if(pos[0] > this.DIM_X || pos[0] < 0 || pos[1] > this.DIM_Y || pos[1] < 0){
+    return true
+  } else {
+    return false
+  }
+}
+
 Game.prototype.allObjects = function() {
-  return this.asteroids.concat(this.ship).concat(this.bullets);
+  return this.stars.concat(this.ship).concat(this.bullets).concat(this.asteroids);
 };
 
 Game.prototype.maxSpeed = function(speedX, speedY) {
-  var speedLimit = 15;
+  var speedLimit = 12;
   if ((speedLimit * speedLimit) < ((speedX * speedX) + (speedY * speedY))) {
     return this.maxSpeed(speedX * 0.9, speedY * 0.9);
   };
   return [speedX, speedY];
 };
+
 
 
 })();
