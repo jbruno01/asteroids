@@ -7,12 +7,13 @@ var Game = Asteroids.Game = function(canvasEl) {
   this.DIM_X = canvasEl.width;
   this.DIM_Y = canvasEl.height;
   this.NUM_ASTEROIDS = 8;
-  this.NUM_EACH_STARS = 10;
+  this.NUM_EACH_STARS = 15;
   this.addAsteroids();
   this.addStars();
   this.ship = new Asteroids.Ship({game: this});
   this.bullets = [];
 };
+
 
 Game.prototype.addAsteroids = function() {
   this.asteroids = [];
@@ -51,7 +52,16 @@ Game.prototype.draw = function(ctx) {
   this.allObjects().forEach(function(piece) {
     piece.draw(ctx);
   });
+  if (this.isOver()){
+    ctx.font = "56px serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Game Over. Thanks for playing!!", this.DIM_X / 2, this.DIM_Y / 2)
+  }
 };
+
+Game.prototype.isOver = function () {
+  return this.asteroids.length === 0;
+}
 
 Game.prototype.moveObjects = function(){
   this.allObjects().forEach(function(piece) {
@@ -91,12 +101,11 @@ Game.prototype.checkCollisions = function() {
     };
     for(var j = 0; j < this.bullets.length; j++){
       if(asteroids[i].isCollidedWith(this.bullets[j])){
-        toBeRemoved.push(asteroids[i]);
-        toBeRemoved.push(this.bullets[j]);
+        this.remove(asteroids[i]);
+        this.remove(this.bullets[j]);
       };
     };
   };
-  this.remove(toBeRemoved);
 };
 
 Game.prototype.step = function () {
@@ -104,24 +113,18 @@ Game.prototype.step = function () {
   this.checkCollisions();
 };
 
-Game.prototype.remove = function(removeArray) {
+Game.prototype.remove = function(obj) {
   var game = this;
-  removeArray.forEach(function(obj){
-    if(obj instanceof Asteroids.Asteroid) {
-      game.asteroids.splice(game.asteroids.indexOf(obj), 1);
-    };
-    if (obj instanceof Asteroids.Bullet) {
-      game.bullets.splice(game.bullets.indexOf(obj), 1);
-    };
-  });
+  if(obj instanceof Asteroids.Asteroid) {
+    game.asteroids.splice(game.asteroids.indexOf(obj), 1);
+  };
+  if (obj instanceof Asteroids.Bullet) {
+    game.bullets.splice(game.bullets.indexOf(obj), 1);
+  };
 };
 
 Game.prototype.isOutOfBounds = function(pos) {
-  if(pos[0] > this.DIM_X || pos[0] < 0 || pos[1] > this.DIM_Y || pos[1] < 0){
-    return true
-  } else {
-    return false
-  }
+  return (pos[0] > this.DIM_X || pos[0] < 0 || pos[1] > this.DIM_Y || pos[1] < 0)
 }
 
 Game.prototype.allObjects = function() {

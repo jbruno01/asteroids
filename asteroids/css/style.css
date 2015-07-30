@@ -28,3 +28,7 @@ canvas {
   width: 900px;
   margin: 20px auto;
 }
+
+h1, h2 {
+  text-align: center;
+}

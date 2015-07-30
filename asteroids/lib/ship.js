@@ -38,7 +38,7 @@ Ship.prototype.fireBullet = function () {
     vel: [(this.vel[0] * 2), (this.vel[1] * 2)],
     game: this.game
   }));
-  if(this.game.bullets.length > 6){
+  if(this.game.bullets.length > 8){
     this.game.bullets.shift();
   };
 };

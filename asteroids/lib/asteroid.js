@@ -11,7 +11,7 @@ Asteroids.Asteroid = function(obj) {
     color: COLOR,
     radius: RADIUS,
     pos: obj.pos,
-    vel: Asteroids.Util.randomVec(2)
+    vel: Asteroids.Util.randomVec(3)
   });
 };
 

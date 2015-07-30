@@ -14,8 +14,8 @@
     })
   };
 
-  Bullet.prototype.isWrappable = false;
 
   Asteroids.Util.inherits(Asteroids.Bullet, Asteroids.MovingObject);
 
+  Bullet.prototype.isWrappable = false;
   })();
