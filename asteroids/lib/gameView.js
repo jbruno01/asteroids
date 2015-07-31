@@ -6,7 +6,7 @@
   var GameView = Asteroids.GameView = function(ctx, canvasEl){
     this.game = new Asteroids.Game(canvasEl);
     this.ctx = ctx;
-  };
+  }; 
 
   GameView.prototype.start = function() {
     this.bindKeyHandlers();
@@ -22,5 +22,13 @@
     key('down', function() { gameview.game.ship.power([0, thrust]) });
     key('space', function() { gameview.game.ship.fireBullet() });
   };
+
+  GameView.prototype.unbindUsedKeys = function() {
+    key('up', function() {});
+    key('left', function() {});
+    key('right', function() {});
+    key('down', function() {});
+    key('space', function() {});
+  }
 
   })();

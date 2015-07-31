@@ -10,6 +10,8 @@ var Game = Asteroids.Game = function(canvasEl) {
   this.NUM_EACH_STARS = 15;
   this.addAsteroids();
   this.addStars();
+  this.POINTS = 0;
+  this.LIVES = 3;
   this.ship = new Asteroids.Ship({game: this});
   this.bullets = [];
 };
@@ -20,7 +22,9 @@ Game.prototype.addAsteroids = function() {
   for (var i = 0; i < this.NUM_ASTEROIDS; i++ ){
     this.asteroids.push(new Asteroids.Asteroid({
       pos: this.randomPosition(),
-      game: this
+      game: this,
+      radius: 60,
+      color: "green"
     }));
   };
 };
@@ -55,12 +59,13 @@ Game.prototype.draw = function(ctx) {
   if (this.isOver()){
     ctx.font = "56px serif";
     ctx.textAlign = "center";
-    ctx.fillText("Game Over. Thanks for playing!!", this.DIM_X / 2, this.DIM_Y / 2)
+    ctx.fillText("Game Over. Thanks for playing!!", this.DIM_X / 2, this.DIM_Y / 2);
+    Asteroids.GameView.unbindUsedKeys();
   }
 };
 
 Game.prototype.isOver = function () {
-  return this.asteroids.length === 0;
+  return this.LIVES <= 0 || this.asteroids.length === 0;
 }
 
 Game.prototype.moveObjects = function(){
@@ -94,14 +99,21 @@ Game.prototype.wrap = function(pos) {
 
 Game.prototype.checkCollisions = function() {
   var asteroids = this.asteroids;
-  var toBeRemoved = []
   for (var i = 0; i < asteroids.length; i++ ){
     if(asteroids[i].isCollidedWith(this.ship)){
       this.ship.relocate();
+      this.LIVES -= 1;
     };
     for(var j = 0; j < this.bullets.length; j++){
       if(asteroids[i].isCollidedWith(this.bullets[j])){
-        this.remove(asteroids[i]);
+        if(asteroids[i].radius > 20){
+          asteroids[i].split();
+          this.POINTS += 10;
+        } else {
+          this.remove(asteroids[i]);
+          this.POINTS += 20;
+        }
+
         this.remove(this.bullets[j]);
       };
     };
