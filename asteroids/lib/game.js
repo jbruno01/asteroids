@@ -56,11 +56,14 @@ Game.prototype.draw = function(ctx) {
   this.allObjects().forEach(function(piece) {
     piece.draw(ctx);
   });
+  ctx.font = "36px serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Points: " + this.POINTS, 1150, 50);
+  ctx.fillText("Lives: " + this.LIVES, 100, 50)
   if (this.isOver()){
     ctx.font = "56px serif";
     ctx.textAlign = "center";
     ctx.fillText("Game Over. Thanks for playing!!", this.DIM_X / 2, this.DIM_Y / 2);
-    Asteroids.GameView.unbindUsedKeys();
   }
 };
 
@@ -102,7 +105,9 @@ Game.prototype.checkCollisions = function() {
   for (var i = 0; i < asteroids.length; i++ ){
     if(asteroids[i].isCollidedWith(this.ship)){
       this.ship.relocate();
-      this.LIVES -= 1;
+      if(this.LIVES > 0){
+        this.LIVES -= 1;
+      }
     };
     for(var j = 0; j < this.bullets.length; j++){
       if(asteroids[i].isCollidedWith(this.bullets[j])){
