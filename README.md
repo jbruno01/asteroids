@@ -1,6 +1,6 @@
 # Asteroids
 
----
+
 [Play Live](http://jbruno01.github.io/asteroids)
 
 ##Summary
