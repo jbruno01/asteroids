@@ -113,10 +113,14 @@ Game.prototype.checkCollisions = function() {
       if(asteroids[i].isCollidedWith(this.bullets[j])){
         if(asteroids[i].radius > 20){
           asteroids[i].split();
-          this.POINTS += 10;
+          if(!this.isOver){
+            this.POINTS += 10;
+          }
         } else {
           this.remove(asteroids[i]);
-          this.POINTS += 20;
+          if(!this.isOver){
+            this.POINTS += 20;
+          }
         }
 
         this.remove(this.bullets[j]);
