@@ -36,11 +36,11 @@ Game.prototype.addStars = function() {
     this.stars.push(new Asteroids.LittleStar({
       pos: this.randomPosition(),
       game: this
-    }));
+    }))
     this.stars.push(new Asteroids.MediumStar({
       pos: this.randomPosition(),
       game: this
-    }));
+    }))
     this.stars.push(new Asteroids.BigStar({
       pos: this.randomPosition(),
       game: this
@@ -126,6 +126,7 @@ Game.prototype.reset = function () {
   this.NUM_ASTEROIDS = 3;
   this.bullets = [];
   this.addAsteroids(this.NUM_ASTEROIDS);
+  this.addStars();
   this.LEVEL = 1;
 }
 
