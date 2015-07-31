@@ -6,20 +6,21 @@
 var Game = Asteroids.Game = function(canvasEl) {
   this.DIM_X = canvasEl.width;
   this.DIM_Y = canvasEl.height;
-  this.NUM_ASTEROIDS = 8;
-  this.NUM_EACH_STARS = 15;
-  this.addAsteroids();
+  this.NUM_ASTEROIDS = 3;
+  this.NUM_EACH_STARS = 25;
+  this.addAsteroids(this.NUM_ASTEROIDS);
   this.addStars();
   this.POINTS = 0;
   this.LIVES = 3;
+  this.LEVEL = 1;
   this.ship = new Asteroids.Ship({game: this});
   this.bullets = [];
 };
 
 
-Game.prototype.addAsteroids = function() {
+Game.prototype.addAsteroids = function(num) {
   this.asteroids = [];
-  for (var i = 0; i < this.NUM_ASTEROIDS; i++ ){
+  for (var i = 0; i < num; i++ ){
     this.asteroids.push(new Asteroids.Asteroid({
       pos: this.randomPosition(),
       game: this,
@@ -56,19 +57,37 @@ Game.prototype.draw = function(ctx) {
   this.allObjects().forEach(function(piece) {
     piece.draw(ctx);
   });
-  ctx.font = "36px serif";
-  ctx.textAlign = "center";
-  ctx.fillText("Points: " + this.POINTS, 1150, 50);
-  ctx.fillText("Lives: " + this.LIVES, 100, 50)
-  if (this.isOver()){
-    ctx.font = "56px serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Game Over. Thanks for playing!!", this.DIM_X / 2, this.DIM_Y / 2);
+  this.renderDetails();
+  if (this.needLevelUp()){
+    this.levelUp();
+  } else if (this.isOver()){
+    this.renderGameOver();
   }
 };
 
+Game.prototype.renderGameOver = function () {
+  ctx.font = "56px serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Game Over. R to reset!!", this.DIM_X / 2, this.DIM_Y / 2);
+  key("r", function () {
+    this.reset()
+  }.bind(this))
+}
+
+Game.prototype.renderDetails = function () {
+  ctx.font = "36px serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Points: " + this.POINTS, 1150, 50);
+  ctx.fillText("Lives: " + this.LIVES, 100, 50);
+  ctx.fillText("Level: " + this.LEVEL, this.DIM_X / 2, 50);
+}
+
 Game.prototype.isOver = function () {
-  return this.LIVES <= 0 || this.asteroids.length === 0;
+  return this.LIVES === 0 || this.asteroids.length === 0;
+}
+
+Game.prototype.needLevelUp = function () {
+  return this.LIVES > 0 && this.asteroids.length === 0;
 }
 
 Game.prototype.moveObjects = function(){
@@ -100,6 +119,22 @@ Game.prototype.wrap = function(pos) {
   return [wrapX, wrapY]
 };
 
+Game.prototype.reset = function () {
+  this.LIVES = 3;
+  this.POINTS = 0;
+  this.asteroids = [];
+  this.NUM_ASTEROIDS = 3;
+  this.bullets = [];
+  this.addAsteroids(this.NUM_ASTEROIDS);
+  this.LEVEL = 1;
+}
+
+Game.prototype.levelUp = function () {
+  this.LEVEL += 1;
+  this.NUM_ASTEROIDS += 1;
+  this.addAsteroids(this.NUM_ASTEROIDS)
+}
+
 Game.prototype.checkCollisions = function() {
   var asteroids = this.asteroids;
   for (var i = 0; i < asteroids.length; i++ ){
@@ -111,16 +146,21 @@ Game.prototype.checkCollisions = function() {
     };
     for(var j = 0; j < this.bullets.length; j++){
       if(asteroids[i].isCollidedWith(this.bullets[j])){
-        if(asteroids[i].radius > 20){
+        if(asteroids[i].radius > 30){
           asteroids[i].split();
-          if(!this.isOver){
+          if(!this.isOver()){
             this.POINTS += 10;
           }
-        } else {
-          this.remove(asteroids[i]);
-          if(!this.isOver){
+        } else if(asteroids[i].radius > 20) {
+          asteroids[i].split();
+          if(!this.isOver()){
             this.POINTS += 20;
           }
+        } else {
+          if(!this.isOver()){
+            this.POINTS += 30;
+          }
+          this.remove(asteroids[i]);
         }
 
         this.remove(this.bullets[j]);
