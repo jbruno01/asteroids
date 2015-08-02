@@ -1,4 +1,4 @@
-body, html, canvas
+body, html, canvas, h1
   {
   margin: 0;
   padding: 0;
@@ -14,12 +14,9 @@ body, html, canvas
 
 }
 
-ul {
-  list-style: none;
-}
-
 body {
   background: #ccc;
+  font-family: sans-serif;
 }
 
 canvas {
@@ -30,6 +27,8 @@ canvas {
   margin: 20px auto;
 }
 
-h1, h2 {
+h1 {
+  padding-top: 20px;
+  font-size: 48px;
   text-align: center;
 }
